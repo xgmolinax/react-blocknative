@@ -1,26 +1,47 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+const BLOCKNATIVE_KEY = 'INSERT_KEY';
+const FORTMATIC_KEY = 'INSERT_KEY';
+const PORTIS_KEY = 'INSERT_KEY';
+const NETWORK_ID = 1;
+
+const renderWalletSelect = async Onboard => {
+    const initializedOnboard = Onboard.init({
+        networkId: NETWORK_ID,
+        dappId: BLOCKNATIVE_KEY,
+        subscriptions: {
+            address: val => console.log('address', val),
+            network: val => console.log('network', val),
+            balance: val => console.log('balance', val),
+            wallet: val => console.log('wallet', val)
+        },
+        modules: {
+            walletSelect: Onboard.modules.select.defaults({
+                fortmaticInit: { apiKey: FORTMATIC_KEY },
+                portisInit: { apiKey: PORTIS_KEY },
+                networkId: NETWORK_ID
+            }),
+            walletReady: Onboard.modules.ready.defaults({
+                networkId: NETWORK_ID,
+                minimumBalance: '-200000000000000000'
+            })
+        }
+    });
+
+    await initializedOnboard.walletSelect();
+};
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <header className="App-header">
+                <button onClick={() => renderWalletSelect(window.onboard)}>
+                    Wallet Select
+                </button>
+            </header>
+        </div>
+    );
 }
 
 export default App;
