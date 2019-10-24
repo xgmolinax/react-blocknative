@@ -1,4 +1,5 @@
 import React from 'react';
+import Onboard from 'bnc-onboard';
 import './App.css';
 
 const BLOCKNATIVE_KEY = 'INSERT_KEY';
@@ -6,7 +7,7 @@ const FORTMATIC_KEY = 'INSERT_KEY';
 const PORTIS_KEY = 'INSERT_KEY';
 const NETWORK_ID = 1;
 
-const renderWalletSelect = async Onboard => {
+const renderWalletSelect = async () => {
     const initializedOnboard = Onboard.init({
         networkId: NETWORK_ID,
         dappId: BLOCKNATIVE_KEY,
@@ -24,7 +25,7 @@ const renderWalletSelect = async Onboard => {
             }),
             walletReady: Onboard.modules.ready.defaults({
                 networkId: NETWORK_ID,
-                minimumBalance: '-200000000000000000'
+                minimumBalance: '0'
             })
         }
     });
@@ -36,7 +37,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <button onClick={() => renderWalletSelect(window.onboard)}>
+                <button onClick={() => renderWalletSelect()}>
                     Wallet Select
                 </button>
             </header>
